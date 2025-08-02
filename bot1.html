@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommendation Chatbot</title>
+    <style>
+        /* Base Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            scroll-behavior: smooth;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        nav {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+
+        nav .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 120px 20px 100px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #00bfff;
+        }
+
+        .content {
+            padding: 70px 20px;
+            text-align: center;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Light Mode */
+        @media (prefers-color-scheme: light) {
+            body { background: #f4f4f4; color: #222; }
+            nav { background: #ffffff; }
+            nav .logo, nav ul li a { color: #002d9c; }
+            .btn { background: #002d9c; color: white; }
+            footer { background: #ffffff; color: #002d9c; }
+        }
+
+        /* Dark Mode */
+        @media (prefers-color-scheme: dark) {
+            body { background: #121212; color: #eaeaea; }
+            nav { background: #1f1f1f; }
+            nav .logo, nav ul li a { color: #00bfff; }
+            .btn { background: #00bfff; color: black; }
+            footer { background: #1f1f1f; color: #00bfff; }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                width: 200px;
+                text-align: right;
+                padding: 10px;
+            }
+            nav ul.show { display: flex; }
+            .menu-icon { display: block; }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">BookBot</div>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <ul id="menu">
+            <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+            <li><a href="#about" onclick="toggleMenu()">About</a></li>
+            <li><a href="#chatbot" onclick="toggleMenu()">Chatbot</a></li>
+            <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <h1>Welcome to Book Recommendation Chatbot</h1>
+        <p>Find your perfect book using AI-powered recommendations</p>
+        <a href="#chatbot" class="btn">Try the Chatbot</a>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="content">
+        <h2>About This Project</h2>
+        <p>This chatbot recommends books based on mood, genre, and author preferences. Built using IBM Watson Assistant, it leverages AI to make intelligent suggestions.</p>
+    </section>
+
+    <!-- Chatbot Section -->
+    <section id="chatbot" class="content">
+        <h2>Try the Chatbot</h2>
+        <p>Click the chat icon at the bottom right to start interacting!</p>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="content">
+        <h2>Contact</h2>
+        <p>Email: yourname@example.com</p>
+        <p>College: UCER Naini, Prayagraj</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Created by Tanmay Singh | UCER Naini, Prayagraj</p>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        function toggleMenu() {
+            document.getElementById('menu').classList.toggle('show');
+        }
+    </script>
+
+    <!-- Watson Assistant Chatbot -->
+    <script>
+      window.watsonAssistantChatOptions = {
+        integrationID: "1d6ae415-558b-4a98-8519-48eb2a6b6c3e",
+        region: "us-south",
+        serviceInstanceID: "334197a3-3b44-472e-828b-b7e4824d18d0",
+        onLoad: async (instance) => { await instance.render(); }
+      };
+      setTimeout(function(){
+        const t=document.createElement('script');
+        t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" +
+               (window.watsonAssistantChatOptions.clientVersion || 'latest') +
+               "/WatsonAssistantChatEntry.js";
+        document.head.appendChild(t);
+      });
+    </script>
+</body>
+</html>
+

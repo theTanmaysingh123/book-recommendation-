@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommendation Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #4a90e2;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        h1 {
+            margin: 0;
+        }
+        main {
+            padding: 20px;
+        }
+        .genres ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+        .genres li {
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            text-align: center;
+            flex: 1;
+        }
+        .genres li:hover {
+            background-color: #e3f2fd;
+        }
+        .book-list {
+            display: none;
+            margin-top: 20px;
+        }
+        .book-card {
+            display: inline-block;
+            width: 150px;
+            margin: 10px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .book-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Book Recommendation Website</h1>
+        <p>Find the perfect book for your mood!</p>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="intro">
+            <h2>Welcome!</h2>
+            <p>Explore genres, authors, and recommendations tailored for you. Ask our chatbot for suggestions!</p>
+        </section>
+
+        <!-- Genres Section -->
+        <section class="genres">
+            <h2>Popular Genres</h2>
+            <ul>
+                <li onclick="showBooks('romantic')">Romantic</li>
+                <li onclick="showBooks('thriller')">Thriller</li>
+                <li onclick="showBooks('fiction')">Fiction</li>
+                <li onclick="showBooks('mystery')">Mystery</li>
+            </ul>
+        </section>
+
+        <!-- Book Display Section -->
+        <section id="book-section" class="book-list"></section>
+    </main>
+
+    <!-- IBM Watson Assistant Chatbot Integration -->
+    <script>
+        // Function to display books by genre
+        function showBooks(genre) {
+            const books = {
+                romantic: [
+                    { title: "Pride and Prejudice", image: "https://covers.openlibrary.org/b/id/8235116-L.jpg" },
+                    { title: "Me Before You", image: "https://covers.openlibrary.org/b/id/8377082-L.jpg" }
+                ],
+                thriller: [
+                    { title: "The Silent Patient", image: "https://covers.openlibrary.org/b/id/10552920-L.jpg" },
+                    { title: "Gone Girl", image: "https://covers.openlibrary.org/b/id/8231991-L.jpg" }
+                ],
+                fiction: [
+                    { title: "The Great Gatsby", image: "https://covers.openlibrary.org/b/id/7222246-L.jpg" },
+                    { title: "To Kill a Mockingbird", image: "https://covers.openlibrary.org/b/id/8225260-L.jpg" }
+                ],
+                mystery: [
+                    { title: "Sherlock Holmes", image: "https://covers.openlibrary.org/b/id/8231830-L.jpg" },
+                    { title: "The Girl with the Dragon Tattoo", image: "https://covers.openlibrary.org/b/id/8244166-L.jpg" }
+                ]
+            };
+
+            const bookSection = document.getElementById("book-section");
+            bookSection.innerHTML = "";
+            books[genre].forEach(book => {
+                bookSection.innerHTML += `
+                    <div class="book-card">
+                        <img src="${book.image}" alt="${book.title}">
+                        <p>${book.title}</p>
+                    </div>
+                `;
+            });
+            bookSection.style.display = "block";
+        }
+
+        // Watson Assistant Chatbot
+        window.watsonAssistantChatOptions = {
+            integrationID: "1d6ae415-558b-4a98-8519-48eb2a6b6c3e",
+            region: "us-south",
+            serviceInstanceID: "334197a3-3b44-472e-828b-b7e4824d18d0",
+            onLoad: async (instance) => { await instance.render(); }
+
+        }
